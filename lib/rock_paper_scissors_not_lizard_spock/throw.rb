@@ -18,7 +18,7 @@ module RockPaperScissorsNotLizardSpock
 
     def beats?(other_throw)
       return false if tied?(other_throw)
-      THROW_RULES[@player_throw.to_sym][:beats] == other_throw.player_throw
+      THROW_RULES.dig(@player_throw.to_sym, :beats) == other_throw.player_throw
     end
 
     def legal?
@@ -26,7 +26,7 @@ module RockPaperScissorsNotLizardSpock
     end
 
     def tied?(other_throw)
-      THROW_RULES[@player_throw.to_sym][:ties] == other_throw.player_throw
+      THROW_RULES.dig(@player_throw.to_sym, :ties) == other_throw.player_throw
     end
   end
 end
