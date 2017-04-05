@@ -49,6 +49,7 @@ module RockPaperScissorsNotLizardSpock
     def throw_down
       while keep_playing?
         presenter.score(@computer_score, @human_score)
+        computer_player.make_throw
 
         begin
           presenter.player_prompt
