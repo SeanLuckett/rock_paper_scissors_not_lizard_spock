@@ -33,5 +33,13 @@ module RockPaperScissorsNotLizardSpock
     def quit
       puts 'Well, be seeing ya.'
     end
+
+    def tie
+      puts "No one won that round. A bit like kissing your sister, isn't it?"
+    end
+
+    def win(player)
+      puts "The #{player.to_s} won this round!"
+    end
   end
 end

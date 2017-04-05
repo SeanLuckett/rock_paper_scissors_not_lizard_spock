@@ -1,6 +1,6 @@
 module RockPaperScissorsNotLizardSpock
   class Game
-    attr_reader :human_score
+    attr_reader :human_score, :computer_score
 
     def initialize(presenter:)
       @presenter = presenter
@@ -10,30 +10,47 @@ module RockPaperScissorsNotLizardSpock
     end
 
     def play
-      presenter.welcome
-      presenter.rules
-      presenter.play_options
+      introduction
 
-      play_choice = STDIN.gets.chomp
+      while keep_playing?
+        puts "The score: computer--#{computer_score}, you--#{@human_score}"
 
-      if play_choice.to_i == 1
         begin
           presenter.player_prompt
-          @human_player.make_throw
-        end until @human_player.throw.legal?
+          human_player.make_throw
+        end until human_player.throw.legal?
 
-        score(@human_player.throw, @computer_player.throw)
-      else
-        presenter.quit
+        score(human_player.throw, computer_player.throw)
+
       end
+
+      presenter.quit
     end
 
     private
-    attr_reader :presenter
+    attr_reader :presenter, :human_player, :computer_player
 
-    def score(human, computer)
-      @human_score += 1
+    def introduction
+      presenter.welcome
+      presenter.rules
     end
 
+    def score(human, computer)
+      presenter.tie if human.tied?(computer)
+
+      if human.beats?(computer)
+        @human_score += 1
+        presenter.win(:human)
+      else
+        @computer_score += 1
+        presenter.win(:computer)
+      end
+    end
+
+    def keep_playing?
+      presenter.play_options
+      play_choice = STDIN.gets.chomp.to_i
+      play_choice == 1
+    end
   end
 end
