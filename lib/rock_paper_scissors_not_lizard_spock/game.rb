@@ -10,28 +10,24 @@ module RockPaperScissorsNotLizardSpock
 
     def play
       introduction
-
-      while keep_playing?
-        presenter.score(@computer_score, @human_score)
-
-        begin
-          presenter.player_prompt
-          human_player.make_throw
-        end until human_player.throw.legal?
-
-        score(human_player.throw, computer_player.throw)
-
-      end
-
+      throw_down
+      score(human_player.throw, computer_player.throw)
       presenter.quit
     end
 
     private
-    attr_reader :presenter, :human_player, :computer_player
+
+    attr_reader :presenter, :human_player, :computer_player, :computer_score, :human_score
 
     def introduction
       presenter.welcome
       presenter.rules
+    end
+
+    def keep_playing?
+      presenter.play_options
+      play_choice = STDIN.gets.chomp.to_i
+      play_choice == 1
     end
 
     def score(human, computer)
@@ -46,10 +42,15 @@ module RockPaperScissorsNotLizardSpock
       end
     end
 
-    def keep_playing?
-      presenter.play_options
-      play_choice = STDIN.gets.chomp.to_i
-      play_choice == 1
+    def throw_down
+      while keep_playing?
+        presenter.score(@computer_score, @human_score)
+
+        begin
+          presenter.player_prompt
+          human_player.make_throw
+        end until human_player.throw.legal?
+      end
     end
   end
 end
