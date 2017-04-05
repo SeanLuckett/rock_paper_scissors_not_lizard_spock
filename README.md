@@ -20,7 +20,13 @@ Or install it yourself as:
 
 ## Use
 
-TODO: Write instructions here
+From irb/pry:
+```ruby
+>> require 'rock_paper_scissors_not_lizard_spock'
+>> RockPaperScissorsNotLizardSpock::Game.new.play
+```
+
+Follow in-game instructions.
 
 ## Development
 
