@@ -19,6 +19,10 @@ module RockPaperScissorsNotLizardSpock
             EOS
     end
 
+    def computer_play(computer_throw)
+      puts "This round, Computer threw: #{computer_throw.choice}"
+    end
+
     def play_options
       puts 'Options:'
       puts '1) throw down'

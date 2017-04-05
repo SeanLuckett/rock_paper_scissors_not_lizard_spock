@@ -1,7 +1,7 @@
 module RockPaperScissorsNotLizardSpock
   class Game
 
-    def initialize(presenter:)
+    def initialize(presenter: GamePresenter.new)
       @presenter = presenter
       @human_score = @computer_score = 0
       @human_player = HumanPlayer.new
@@ -11,13 +11,12 @@ module RockPaperScissorsNotLizardSpock
     def play
       introduction
       throw_down
-      score(human_player.throw, computer_player.throw)
       presenter.quit
     end
 
     private
 
-    attr_reader :presenter, :human_player, :computer_player, :computer_score, :human_score
+    attr_reader :presenter, :human_player, :computer_player
 
     def introduction
       presenter.welcome
@@ -30,10 +29,15 @@ module RockPaperScissorsNotLizardSpock
       play_choice == 1
     end
 
-    def score(human, computer)
-      presenter.tie if human.tied?(computer)
+    def score(human_throw, computer_throw)
+      presenter.computer_play(computer_throw)
 
-      if human.beats?(computer)
+      if human_throw.tied?(computer_throw)
+        presenter.tie
+        return
+      end
+
+      if human_throw.beats?(computer_throw)
         @human_score += 1
         presenter.win(:human)
       else
@@ -50,6 +54,8 @@ module RockPaperScissorsNotLizardSpock
           presenter.player_prompt
           human_player.make_throw
         end until human_player.throw.legal?
+
+        score(human_player.throw, computer_player.throw)
       end
     end
   end
