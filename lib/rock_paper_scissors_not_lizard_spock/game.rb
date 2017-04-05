@@ -1,6 +1,5 @@
 module RockPaperScissorsNotLizardSpock
   class Game
-    attr_reader :human_score, :computer_score
 
     def initialize(presenter:)
       @presenter = presenter
@@ -13,7 +12,7 @@ module RockPaperScissorsNotLizardSpock
       introduction
 
       while keep_playing?
-        puts "The score: computer--#{computer_score}, you--#{@human_score}"
+        presenter.score(@computer_score, @human_score)
 
         begin
           presenter.player_prompt

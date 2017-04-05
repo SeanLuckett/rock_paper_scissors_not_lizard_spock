@@ -24,6 +24,11 @@ module RockPaperScissorsNotLizardSpock
       end
 
       context 'player plays' do
+        it 'shows the score' do
+          game.play
+          expect(presenter).to have_received(:score)
+        end
+
         it 'prompts player to make a throw' do
           game.play
           expect(presenter).to have_received(:player_prompt)
@@ -57,10 +62,6 @@ module RockPaperScissorsNotLizardSpock
             game.play
             expect(presenter).to have_received(:win).with(:human)
           end
-
-          it 'gives the human a point' do
-            expect { game.play }.to change { game.human_score }.by 1
-          end
         end
 
         context 'human loses: throws "scissors"' do
@@ -72,10 +73,6 @@ module RockPaperScissorsNotLizardSpock
             game.play
             expect(presenter).to have_received(:win).with(:computer)
           end
-
-          it 'gives the computer a point' do
-            expect { game.play }.to change { game.computer_score }.by 1
-          end
         end
 
         context 'human ties: throws "rock"' do
@@ -86,11 +83,6 @@ module RockPaperScissorsNotLizardSpock
           it 'tells the human about the tie' do
             game.play
             expect(presenter).to have_received(:tie)
-          end
-
-          it 'gives neither player a point' do
-            expect { game.play }.to_not change { game.human_score }
-            expect { game.play }.to_not change { game.computer_score }
           end
         end
       end

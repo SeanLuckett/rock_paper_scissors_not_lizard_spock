@@ -34,6 +34,10 @@ module RockPaperScissorsNotLizardSpock
       puts 'Well, be seeing ya.'
     end
 
+    def score(computer, human)
+      puts "The score: computer--#{computer}, you--#{human}"
+    end
+
     def tie
       puts "No one won that round. A bit like kissing your sister, isn't it?"
     end
